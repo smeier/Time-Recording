@@ -1,0 +1,3 @@
+#!/usr/bin/ruby1.8
+require File.join(File.dirname(__FILE__), "../.gems/bundler_gems/environment")
+load File.join(File.dirname(__FILE__), "../.gems/bundler_gems/gems/haml-2.2.13/bin/sass")

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs title="This is test gadget" height="250" scaling="false" />
+  <Content type="html">
+  <![CDATA[ 
+    <div style="text-align:center"><a
+      id="Riggs" title="One Photo Album" target="_blank" 
+      href="http://picasaweb.google.com/doc.examples/ShelfBoy">
+      <img border="0" alt="Photo" src="http://oceanworld.tamu.edu/students/waves/images/hokusai_wave_1.jpg" 
+      title="Click Here."></a>
+    </div>
+
+  ]]> 
+  </Content>
+</Module>

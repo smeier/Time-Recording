@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs title="This is test gadget" height="250" scaling="false" />
+  <Require feature="tabs"/>
+  <Content type="html">
+  <![CDATA[ 
+	<script  type="text/javascript">
+	// Initialize tabs, designate the tab named "Two" as 
+	// the tab selected by default. 
+	var tabs = new gadgets.TabSet(__MODULE_ID__, "One"); 
+	tabs.addTab("One", "one_id");
+	tabs.addTab("Two", "two_id");
+	</script>
+	<div id="one_id" style="display:none">Content for tab One.</div>
+    <div style="display:none;text-align:center"><a
+      id="two_id" title="A Photo Album" target="_blank" 
+      href="http://picasaweb.google.com/doc.examples/ShelfBoy">
+      <img border="0" alt="Photo" src="http://oceanworld.tamu.edu/students/waves/images/hokusai_wave_1.jpg" 
+      title="Click Here."></a>
+    </div>
+
+  ]]> 
+  </Content>
+</Module>
