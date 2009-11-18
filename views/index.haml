@@ -1,7 +1,9 @@
 %h2 Items
 %table
+  - latest_date = "xx"
   - for item in @tritems
-    != haml(:_oneItem, :layout => false, :locals => {:item => item})
+    != haml(:_oneItem, :layout => false, :locals => {:item => item, :latest_date => latest_date})
+    - latest_date = item.date
 
 %form{:method => :post}  
   Was 

@@ -1,7 +1,8 @@
 %tr
   %td 
-    On 
-    = item.date
+    - if latest_date != item.date
+      On 
+      = item.date
   %td I did 
   %td= item.message
   %td and it took
@@ -9,4 +10,4 @@
   %td hours. Project:
   %td= item.project
 
-
+- latest_date = item.date
