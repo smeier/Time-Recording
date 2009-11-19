@@ -1,14 +1,21 @@
 %form{:method => :post}  
-  Was 
-  %textarea{:name => :message}  
-  %br/
-  Projekt 
-  %input{:name => :project}  
-  %br/
-  Dauer 
-  %input{:name => :duration}  
-  %br/
-  Datum 
-  %input{:name => :date}  
-  %br/
-  %input{:type => :submit, :method => :Shout}
+  %table
+    %tr
+      %td
+        Was 
+      %td
+        %textarea{:name => :message}  
+      %td
+        Projekt 
+      %td
+        %input{:name => :project}  
+      %td
+        Dauer 
+      %td
+        %input{:name => :duration}  
+      %td
+        Datum 
+      %td
+        %input{:name => :date, :value => default_date}  
+      %td
+        %input{:type => :submit, :method => :Shout}

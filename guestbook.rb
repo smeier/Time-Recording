@@ -31,7 +31,7 @@ set :haml, {:format => :html5 , :escape_html => true }
 get '/' do
   # Just list all the time record items
   @tritems = TRItem.all
-  @projects = getProjectsFrom @tritems
+  @projects = getProjectsFrom(@tritems)
   
   haml :index
 end
@@ -47,5 +47,9 @@ end
 
 
 def getProjectsFrom(items) 
-  ["p 1", "p 2", "p3"]
+  projects = {}
+  for item in items do
+    projects[item.project] = item.project
+  end
+  
 end
