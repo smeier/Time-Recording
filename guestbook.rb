@@ -27,23 +27,12 @@ end
 # Set Haml output format and enable escapes
 set :haml, {:format => :html5 , :escape_html => true }
 
-# Main board
-get '/shout' do
-  # Just list all the shouts
-  @shouts = Shout.all
-  haml :shouts
-end
-
-post '/shout' do
-  # Create a now shout and redirect back to the list
-  shout = Shout.create(:message => params[:message])
-  redirect '/shout'
-end
-
 # time record board
 get '/' do
   # Just list all the time record items
   @tritems = TRItem.all
+  @projects = getProjectsFrom @tritems
+  
   haml :index
 end
 
@@ -54,4 +43,9 @@ post '/' do
                          :project => params[:project],
                          :duration => params[:duration])
   redirect '/'
+end
+
+
+def getProjectsFrom(items) 
+  ["p 1", "p 2", "p3"]
 end
