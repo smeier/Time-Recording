@@ -1,6 +1,9 @@
 !!!
 %html
-  %head
-    %title Zeiterfassung
-  %body
-    != yield
+    %head
+        %script{:type => "text/javascript", :src => "http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"}
+        %script{:type => "text/javascript", :src => "jquery.autocomplete.js"}
+        %link{:href => "jquery.autocomplete.css", :type => "text/css", :rel => "stylesheet"}
+        %title Zeiterfassung
+    %body
+        != yield

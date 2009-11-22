@@ -1,16 +1,15 @@
 %h2 Items
 %table
-  - latest_date = "xx"
-  - for item in @tritems
-    != haml(:_oneItem, :layout => false, :locals => {:item => item, :latest_date => latest_date})
-    - latest_date = item.date
+    - latest_date = "xx"
+    - for item in @tritems
+        != haml(:_oneItem, :layout => false, :locals => {:item => item, :latest_date => latest_date})
+        - latest_date = item.date
 
 %hr
 
 != haml :_input_form, :layout => false, :locals => {:default_date => "2009-11-19"}
 
-%hr
 
-%ul
-  - for project in @projects
-    %li=project.key
+!= haml :_debug_garbage, :layout => false
+
+

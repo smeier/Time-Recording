@@ -1,13 +1,13 @@
 %tr
-  %td 
-    - if latest_date != item.date
-      On 
-      = item.date
-  %td I did 
-  %td= item.message
-  %td and it took
-  %td= item.duration
-  %td hours. Project:
-  %td= item.project
+    %td 
+        - if latest_date != item.date
+            On 
+            = item.date
+    %td I did 
+    %td= item.message
+    %td and it took
+    %td= item.duration
+    %td hours. Project:
+    %td= item.project
 
 - latest_date = item.date

@@ -1,21 +1,27 @@
-%form{:method => :post}  
-  %table
-    %tr
-      %td
-        Was 
-      %td
-        %textarea{:name => :message}  
-      %td
-        Projekt 
-      %td
-        %input{:name => :project}  
-      %td
-        Dauer 
-      %td
-        %input{:name => :duration}  
-      %td
-        Datum 
-      %td
-        %input{:name => :date, :value => default_date}  
-      %td
-        %input{:type => :submit, :method => :Shout}
+:javascript
+    $(document).ready(function() {
+        $("#project").autocomplete("projects");
+        $("#message").autocomplete("messages");
+    });
+
+%form{:method => :post}    
+    %table
+        %tr
+            %td
+                Was 
+            %td
+                %input{:id => "message", :name => :message}
+            %td
+                Projekt 
+            %td
+                %input{:id => "project", :name => :project}
+            %td
+                Dauer 
+            %td
+                %input{:name => :duration}    
+            %td
+                Datum 
+            %td
+                %input{:name => :date, :value => default_date}    
+            %td
+                %input{:type => :submit, :method => :Shout}

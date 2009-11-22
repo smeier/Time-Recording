@@ -1,10 +1,10 @@
 %h2 Messages
 - for shout in @shouts
-  %p<
-    Someone wrote,
-    %q= shout.message
+    %p<
+        Someone wrote,
+        %q= shout.message
 
-%form{:method => :post}  
-  %textarea{:name => :message}  
-  %br/
-  %input{:type => :submit, :method => :Shout}
+%form{:method => :post}    
+    %textarea{:name => :message}    
+    %br/
+    %input{:type => :submit, :method => :Shout}
