@@ -1,13 +1,9 @@
 %tr
-    %td 
+    %td{:class => "maintable"} 
         - if latest_date != item.date
-            On 
             = item.date
-    %td I did 
-    %td= item.message
-    %td and it took
-    %td= item.duration
-    %td hours. Project:
-    %td= item.project
+    %td{:class => "maintable"}= item.message
+    %td{:class => "maintable"}= item.project
+    %td{:class => "maintable"}= item.duration
 
 - latest_date = item.date

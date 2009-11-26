@@ -1,5 +1,10 @@
 %h2 Items
 %table
+    %tr
+        %th{:class => "maintable"} Datum
+        %th{:class => "maintable"} Beschreibung
+        %th{:class => "maintable"} Projekt
+        %th{:class => "maintable"} Dauer
     - latest_date = "xx"
     - for item in @tritems
         != haml(:_oneItem, :layout => false, :locals => {:item => item, :latest_date => latest_date})
