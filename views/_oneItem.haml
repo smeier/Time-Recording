@@ -1,9 +1,14 @@
 %tr
-    %td{:class => "maintable"} 
-        - if latest_date != item.date
-            = item.date
-    %td{:class => "maintable"}= item.message
-    %td{:class => "maintable"}= item.project
-    %td{:class => "maintable"}= item.duration
+    %form{:method => :post}
+        %td{:class => "maintable"} 
+            - if latest_date != item.date
+                = item.date
+        %td{:class => "maintable"}= item.message
+        %td{:class => "maintable"}= item.project
+        %td{:class => "maintable"}
+            %input{:type => "input", :name => "duration", :value => "#{item.duration}"}
+        %td{:class => "maintable"}
+            %input{:class => "maintable", :value => "Save", :type => "submit"}
+            %input{:type => "hidden", :name => "id", :value => "#{item.id}"}
 
 - latest_date = item.date

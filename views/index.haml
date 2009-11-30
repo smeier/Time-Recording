@@ -12,7 +12,7 @@
 
 %hr
 
-!= haml :_input_form, :layout => false, :locals => {:default_date => "2009-11-19"}
+!= haml :_input_form, :layout => false, :locals => {:default_date => date_to_str(Time.now)}
 
 
 != haml :_debug_garbage, :layout => false

@@ -1,5 +1,6 @@
 require 'appengine-rack'
 require 'guestbook'
+# require 'hello'
 
 AppEngine::Rack.configure_app(:application => "meier", :version => 1)
 

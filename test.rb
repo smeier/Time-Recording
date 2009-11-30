@@ -1,4 +1,4 @@
-require 'guestbook'
+require 'hello'
 require 'test/unit'
 require 'rack/test'
 

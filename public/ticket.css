@@ -3,7 +3,7 @@ td.maintable {
     background-color: white;
 	margin: 0px;
 	padding: 2px 5px;
-	cursor: pointer;
+	// cursor: pointer;
 	font: menu;
 	font-size: 12px;
 }
@@ -12,7 +12,7 @@ th.maintable {
     background-color: gray;
 	margin: 0px;
 	padding: 2px 5px;
-	cursor: pointer;
+	// cursor: pointer;
 	font: menu;
 	font-size: 12px;
     font-style: bold;

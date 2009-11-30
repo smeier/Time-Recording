@@ -2,17 +2,20 @@ require 'rubygems'
 require 'sinatra'
 require 'dm-core'
 require 'haml'
+require 'appengine-apis/datastore'
 
 # Configure DataMapper to use the App Engine datastore 
 DataMapper.setup(:default, "appengine://auto")
 
-# Create your model classes
-class Shout
-    include DataMapper::Resource
-
-    property :id, Serial
-    property :message, Text
+# Helper
+helpers do
+    def date_to_str ( date )
+        arr = date.to_a[3..5]
+        "#{arr[2]}-#{arr[1]}-#{arr[0]}"
+    end
 end
+
+# Create your model classes
 
 class TRItem
     include DataMapper::Resource
@@ -38,12 +41,38 @@ get '/' do
 end
 
 post '/' do
-    # Create a now shout and redirect back to the list
-    tritem = TRItem.create(:message => params[:message],
-                                                 :date => params[:date],
-                                                 :project => params[:project],
-                                                 :duration => params[:duration])
+    id = params[:id]
+    if id
+        # Create a now item and redirect back to the list
+        # list = AppEngine::Datastore::Query.new('TRItem').filter(:id, AppEngine::Datastore::Query::EQUAL, id)
+        list = DataMapper::Query.new('TRItem')
+        list.each do | tritem |
+            tritem.message = params[:message]
+            tritem.date = params[:date]
+            tritem.project = params[:project]
+            tritem.duration = params[:duration]
+            tritem.put
+        end
+    else
+        # Create a now shout and redirect back to the list
+        tritem = TRItem.create(:message => params[:message],
+                                                     :date => params[:date],
+                                                     :project => params[:project],
+                                                     :duration => params[:duration])
+    end
+
     redirect '/'
+end
+
+get '/list' do
+    # @tritems = AppEngine::Datastore::Query.new('TRItem').filter('project',  AppEngine::Datastore::Query::EQUAL, '123').fetch
+    # @tritems = AppEngine::Datastore::Query.new('TRItem').fetch
+    @tritems = DataMapper::Query.new('TRItem')
+    puts @tritems
+    @projects = getProjectsFrom(@tritems)
+    @messages = getMessagesFrom(@tritems)
+    
+    haml :index
 end
 
 get '/projects' do
