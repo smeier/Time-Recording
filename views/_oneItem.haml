@@ -10,5 +10,8 @@
         %td{:class => "maintable"}
             %input{:class => "maintable", :value => "Save", :type => "submit"}
             %input{:type => "hidden", :name => "id", :value => "#{item.id}"}
+            %input{:type => "hidden", :name => "message", :value => "#{item.message}"}
+            %input{:type => "hidden", :name => "project", :value => "#{item.project}"}
+            %input{:type => "hidden", :name => "date", :value => "#{item.date}"}
 
 - latest_date = item.date

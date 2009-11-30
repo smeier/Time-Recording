@@ -40,25 +40,46 @@ get '/' do
     haml :index
 end
 
-post '/' do
-    id = params[:id]
-    if id
-        # Create a now item and redirect back to the list
-        # list = AppEngine::Datastore::Query.new('TRItem').filter(:id, AppEngine::Datastore::Query::EQUAL, id)
-        list = DataMapper::Query.new('TRItem')
-        list.each do | tritem |
-            tritem.message = params[:message]
-            tritem.date = params[:date]
-            tritem.project = params[:project]
-            tritem.duration = params[:duration]
-            tritem.put
+def find_items_by_id(id)
+    result = []
+    # list = AppEngine::Datastore::Query.new('TRItem').filter(:id, AppEngine::Datastore::Query::EQUAL, id)
+    # list = DataMapper::Query.new('TRItem')
+    TRItem.all.each do | tritem |
+        puts "item.id = #{tritem.id}"
+        if tritem.id == id
+            puts "yay, found item.id = #{tritem.id}"
+            result << tritem
         end
+    end
+    result
+end
+
+def save_item(params)
+    id = params[:id].to_i
+    list = find_items_by_id id
+    list.each do | tritem |
+        tritem.message = params[:message]
+        tritem.date = params[:date]
+        tritem.project = params[:project]
+        tritem.duration = params[:duration]
+        tritem.save
+    end
+
+end
+
+def create_item(params)
+    # Create a new shout and redirect back to the list
+    tritem = TRItem.create(:message => params[:message],
+                                                 :date => params[:date],
+                                                 :project => params[:project],
+                                                 :duration => params[:duration])
+end
+
+post '/' do
+    if params[:id]
+        save_item(params)
     else
-        # Create a now shout and redirect back to the list
-        tritem = TRItem.create(:message => params[:message],
-                                                     :date => params[:date],
-                                                     :project => params[:project],
-                                                     :duration => params[:duration])
+        create_item(params)
     end
 
     redirect '/'
@@ -66,8 +87,10 @@ end
 
 get '/list' do
     # @tritems = AppEngine::Datastore::Query.new('TRItem').filter('project',  AppEngine::Datastore::Query::EQUAL, '123').fetch
-    # @tritems = AppEngine::Datastore::Query.new('TRItem').fetch
-    @tritems = DataMapper::Query.new('TRItem')
+    @tritems = AppEngine::Datastore::Query.new('TRItemXX')
+    puts @tritems
+    @tritems = AppEngine::Datastore::Query.new('TRItem').fetch
+    # @tritems = DataMapper::Query.new('TRItem')
     puts @tritems
     @projects = getProjectsFrom(@tritems)
     @messages = getMessagesFrom(@tritems)
@@ -96,7 +119,7 @@ end
 def getProjectsFrom(items) 
     projects = {}
     for item in items do
-        puts item.project
+        # puts item.project
         projects[item.project] = item.project
     end
     projects
