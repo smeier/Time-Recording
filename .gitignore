@@ -1,2 +1,4 @@
 .*.swp
 WEB-INF
+.gems
+bin
