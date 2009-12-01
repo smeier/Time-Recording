@@ -7,4 +7,5 @@ gem "sinatra"
 gem "dm-core"
 gem "dm-appengine"
 gem "haml"
+gem "json"
 

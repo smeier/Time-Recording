@@ -33,46 +33,12 @@ set :haml, {:format => :html5 , :escape_html => true }
 # time record board
 get '/' do
     # Just list all the time record items
-    @tritems = TRItem.all
+    @tritems = get_all_items
+    @sum_by_date = get_sum_by_date
     @projects = getProjectsFrom(@tritems)
     @messages = getMessagesFrom(@tritems)
     
     haml :index
-end
-
-def find_items_by_id(id)
-    result = []
-    # list = AppEngine::Datastore::Query.new('TRItem').filter(:id, AppEngine::Datastore::Query::EQUAL, id)
-    # list = DataMapper::Query.new('TRItem')
-    TRItem.all.each do | tritem |
-        puts "item.id = #{tritem.id}"
-        if tritem.id == id
-            puts "yay, found item.id = #{tritem.id}"
-            result << tritem
-        end
-    end
-    result
-end
-
-def save_item(params)
-    id = params[:id].to_i
-    list = find_items_by_id id
-    list.each do | tritem |
-        tritem.message = params[:message]
-        tritem.date = params[:date]
-        tritem.project = params[:project]
-        tritem.duration = params[:duration]
-        tritem.save
-    end
-
-end
-
-def create_item(params)
-    # Create a new shout and redirect back to the list
-    tritem = TRItem.create(:message => params[:message],
-                                                 :date => params[:date],
-                                                 :project => params[:project],
-                                                 :duration => params[:duration])
 end
 
 post '/' do
@@ -113,6 +79,58 @@ get '/messages' do
     messages = getMessagesFrom(@tritems)
     
     haml :list, :layout => false, :locals => {:items => messages}
+end
+
+def get_all_items
+    TRItem.all(:order => [:date])
+    # TRItem.all(:limit => 2, :iorder => :date)
+end
+
+def get_sum_by_date
+    result = {}
+    TRItem.all.each do | tritem |
+        value = result[tritem.date]
+        if ! value
+             value = 0
+        end
+        result[tritem.date] = value + tritem.duration
+    end
+    result
+end
+
+
+def find_items_by_id(id)
+    result = []
+    # list = AppEngine::Datastore::Query.new('TRItem').filter(:id, AppEngine::Datastore::Query::EQUAL, id)
+    # list = DataMapper::Query.new('TRItem')
+    TRItem.all.each do | tritem |
+        puts "item.id = #{tritem.id}"
+        if tritem.id == id
+            result << tritem
+        end
+    end
+    result
+end
+
+def save_item(params)
+    id = params[:id].to_i
+    list = find_items_by_id id
+    list.each do | tritem |
+        tritem.message = params[:message]
+        tritem.date = params[:date]
+        tritem.project = params[:project]
+        tritem.duration = params[:duration]
+        tritem.save
+    end
+
+end
+
+def create_item(params)
+    # Create a new shout and redirect back to the list
+    tritem = TRItem.create(:message => params[:message],
+                                                 :date => params[:date],
+                                                 :project => params[:project],
+                                                 :duration => params[:duration])
 end
 
 

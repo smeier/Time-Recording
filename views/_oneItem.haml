@@ -1,3 +1,11 @@
+- if latest_date != item.date
+    - if @sum_by_date[latest_date]
+        %tr
+            %td
+            %td
+            %td
+            %td{:class => "maintable"}= @sum_by_date[latest_date]
+
 %tr
     %form{:method => :post}
         %td{:class => "maintable"} 

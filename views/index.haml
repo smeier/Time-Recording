@@ -10,6 +10,13 @@
         != haml(:_oneItem, :layout => false, :locals => {:item => item, :latest_date => latest_date})
         - latest_date = item.date
 
+    - if @sum_by_date[latest_date]
+        %tr
+            %td
+            %td
+            %td
+            %td{:class => "maintable"}= @sum_by_date[latest_date]
+
 %hr
 
 != haml :_input_form, :layout => false, :locals => {:default_date => date_to_str(Time.now)}

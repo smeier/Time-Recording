@@ -8,20 +8,24 @@ module Bundler
   ENV["PATH"]     = "#{dir}/../../bin:#{ENV["PATH"]}"
   ENV["RUBYOPT"]  = "-r#{file} #{ENV["RUBYOPT"]}"
 
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/haml-2.2.13/bin")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/haml-2.2.13/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/haml-2.2.15/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/haml-2.2.15/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/dm-appengine-0.0.6/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/dm-appengine-0.0.6/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/addressable-2.1.1/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/addressable-2.1.1/lib")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/appengine-apis-0.0.10/bin")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/appengine-apis-0.0.10/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/rack-1.0.1/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/rack-1.0.1/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/appengine-apis-0.0.10/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/appengine-apis-0.0.10/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/dm-core-0.10.1/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/dm-core-0.10.1/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/sinatra-0.9.4/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/sinatra-0.9.4/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/json-1.2.0/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/json-1.2.0/ext/json/ext")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/json-1.2.0/ext")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/json-1.2.0/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/extlib-0.9.13/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/extlib-0.9.13/lib")
 
