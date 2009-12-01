@@ -4,7 +4,7 @@
             %td
             %td
             %td
-            %td{:class => "maintable"}= @sum_by_date[latest_date]
+            %td{:class => "maintable"}= format_hh_mm(@sum_by_date[latest_date])
 
 %tr
     %form{:method => :post}

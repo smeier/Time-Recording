@@ -161,3 +161,14 @@ def getSetOfFieldsFromList(items, fieldname)
     result
 end 
 
+def format_hh_mm(minutes)
+    # TODO: nach sprintf oder sowas in ruby suchen
+    hours = minutes / 60
+    rest_minutes = minutes % 60
+    if rest_minutes < 10
+        "#{hours}:0#{rest_minutes}"
+    else
+        "#{hours}:#{rest_minutes}"
+    end
+end
+
