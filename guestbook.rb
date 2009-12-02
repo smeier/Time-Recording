@@ -7,6 +7,8 @@ require 'appengine-apis/datastore'
 # Configure DataMapper to use the App Engine datastore 
 DataMapper.setup(:default, "appengine://auto")
 
+$weekdays = [:Montag, :Dienstag, :Mittwoch, :Donnerstag, :Freitag, :Samstag, :Sonntag]
+
 # Helper
 helpers do
     def date_to_str ( date )
@@ -25,6 +27,17 @@ class TRItem
     property :duration, Integer
     property :project, Text
     property :message, Text
+end
+
+class SAPRecord
+    attr_accessor :mainid
+    @mainid = 0
+    attr_accessor :subid
+    @subid = 0
+    for day in $weekdays
+        attr_accessor day
+        instance_variable_set("@#{day}", 0) 
+    end
 end
 
 # Set Haml output format and enable escapes
@@ -81,6 +94,25 @@ get '/messages' do
     haml :list, :layout => false, :locals => {:items => messages}
 end
 
+get '/sap' do
+    items = get_items_for_current_week
+    haml :sap, :locals => {:items => items}
+end
+
+def get_items_for_current_week
+    test_item = SAPRecord.new
+    test_item.mainid = 4056672
+    test_item.subid = 600
+    test_item.Montag = 101
+    test_item.Dienstag = 102
+    test_item.Mittwoch = 103
+    test_item.Donnerstag = 104
+    test_item.Freitag = 105
+    test_item.Samstag = 106
+    test_item.Sonntag = 107
+    return [test_item]
+end
+
 def get_all_items
     TRItem.all(:order => [:date])
     # TRItem.all(:limit => 2, :iorder => :date)
@@ -128,9 +160,9 @@ end
 def create_item(params)
     # Create a new shout and redirect back to the list
     tritem = TRItem.create(:message => params[:message],
-                                                 :date => params[:date],
-                                                 :project => params[:project],
-                                                 :duration => params[:duration])
+                                              :date => params[:date],
+                                              :project => params[:project],
+                                              :duration => params[:duration])
 end
 
 

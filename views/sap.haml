@@ -1,0 +1,16 @@
+
+%h2 SAP-Records
+%table
+    %tr
+        %th{:class => "maintable"} Main-ID
+        %th{:class => "maintable"} Sub-ID
+        %th{:class => "maintable"} Dummy
+        - for weekday in $weekdays
+            %th{:class => "maintable"}= weekday
+    - for item in items
+        %tr
+            %td{:class => "maintable"}= item.mainid
+            %td{:class => "maintable"}= item.subid
+            %td{:class => "maintable"}
+            - for weekday in $weekdays
+                %td{:class => "maintable"}= item.send(weekday)
