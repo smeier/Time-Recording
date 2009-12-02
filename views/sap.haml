@@ -2,6 +2,7 @@
 %h2 SAP-Records
 %table
     %tr
+        %th{:class => "maintable"} Project
         %th{:class => "maintable"} Main-ID
         %th{:class => "maintable"} Sub-ID
         %th{:class => "maintable"} Dummy
@@ -9,6 +10,7 @@
             %th{:class => "maintable"}= weekday
     - for item in items
         %tr
+            %td{:class => "maintable"}= item.project
             %td{:class => "maintable"}= item.mainid
             %td{:class => "maintable"}= item.subid
             %td{:class => "maintable"}

@@ -30,6 +30,8 @@ class TRItem
 end
 
 class SAPRecord
+    attr_accessor :project
+    @project = 0
     attr_accessor :mainid
     @mainid = 0
     attr_accessor :subid
@@ -37,6 +39,14 @@ class SAPRecord
     for day in $weekdays
         attr_accessor day
         instance_variable_set("@#{day}", 0) 
+    end
+    def initialize
+        @project = "undefined"
+        @mainid = 0
+        @subid = 0
+        for day in $weekdays
+            instance_variable_set("@#{day}", 0) 
+        end
     end
 end
 
@@ -78,28 +88,33 @@ get '/list' do
 end
 
 get '/projects' do
-    # Just list all the time record items
-    @tritems = TRItem.all
-    projects = getProjectsFrom(@tritems)
+    tritems = TRItem.all
+    projects = getProjectsFrom(tritems)
     
     haml :list, :layout => false, :locals => {:items => projects}
 end
 
 
 get '/messages' do
-    # Just list all the time record items
-    @tritems = TRItem.all
-    messages = getMessagesFrom(@tritems)
+    tritems = TRItem.all
+    messages = getMessagesFrom(tritems)
     
     haml :list, :layout => false, :locals => {:items => messages}
 end
 
 get '/sap' do
-    items = get_items_for_current_week
+    items = get_sap_records
     haml :sap, :locals => {:items => items}
 end
 
-def get_items_for_current_week
+
+def get_sap_records
+    result = {}
+    items = get_items_for_current_week
+    for item in items:
+        update_or_create_sap_record result, item
+    end
+    # leave in the dummy record for now
     test_item = SAPRecord.new
     test_item.mainid = 4056672
     test_item.subid = 600
@@ -110,7 +125,40 @@ def get_items_for_current_week
     test_item.Freitag = 105
     test_item.Samstag = 106
     test_item.Sonntag = 107
-    return [test_item]
+
+    p result
+    return result.values
+end
+
+def update_or_create_sap_record(sap_records, tritem)
+    sap_record = sap_records[tritem.project]
+    if  sap_record == nil
+        sap_record = SAPRecord.new
+        sap_record.project = tritem.project
+        sap_record.mainid = 4040030
+        sap_record.subid = 600
+        sap_records[tritem.project] = sap_record
+    end
+    weekday = get_weekday(tritem.date)
+    old_value = sap_record.instance_variable_get("@#{weekday}")
+    sap_record.instance_variable_set("@#{weekday}", old_value + tritem.duration)
+    p sap_record
+end
+
+
+def get_weekday(date)
+    monday_based_weekday = (date.wday - 1) % 7
+    $weekdays[monday_based_weekday]
+end
+
+def get_items_for_current_week
+    monday = get_first_day_of_week(Time.now) 
+    find_items_after monday
+end
+
+def get_first_day_of_week(date)
+    result = Date.new(2009, 11, 30)
+    return result
 end
 
 def get_all_items
@@ -131,12 +179,21 @@ def get_sum_by_date
 end
 
 
+def find_items_after(date)
+    result = []
+    TRItem.all.each do | tritem |
+        if tritem.date >= date
+            result << tritem
+        end
+    end
+    result
+end
+
 def find_items_by_id(id)
     result = []
     # list = AppEngine::Datastore::Query.new('TRItem').filter(:id, AppEngine::Datastore::Query::EQUAL, id)
     # list = DataMapper::Query.new('TRItem')
     TRItem.all.each do | tritem |
-        puts "item.id = #{tritem.id}"
         if tritem.id == id
             result << tritem
         end
