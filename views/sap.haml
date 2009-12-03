@@ -1,8 +1,15 @@
 
 %h2 SAP-Records
+
+- if show_projectname
+    %a{:href => "sap"} hide projectnames
+- else
+    %a{:href => "sapp"} show projectnames
+
 %table
     %tr
-        %th{:class => "maintable"} Project
+        - if show_projectname
+            %th{:class => "maintable"} Project
         %th{:class => "maintable"} Main-ID
         %th{:class => "maintable"} Sub-ID
         %th{:class => "maintable"} Dummy
@@ -10,7 +17,8 @@
             %th{:class => "maintable"}= weekday
     - for item in items
         %tr
-            %td{:class => "maintable"}= item.project
+            - if show_projectname
+                %td{:class => "maintable"}= item.project
             %td{:class => "maintable"}= item.mainid
             %td{:class => "maintable"}= item.subid
             %td{:class => "maintable"}

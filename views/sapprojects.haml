@@ -1,0 +1,30 @@
+%h2 SAP-Projects
+%table
+    %tr
+        %th{:class => "maintable"} Name
+        %th{:class => "maintable"} Main-ID
+        %th{:class => "maintable"} Sub-ID
+    - for project in projects
+        %tr
+            %form{:method => :post}
+                %td{:class => "maintable"}
+                    %input{:type => "input", :name => "projectname", :value => "#{project.name}"}
+                %td{:class => "maintable"}
+                    %input{:type => "input", :name => "mainid", :value => "#{project.mainid}"}
+                %td{:class => "maintable"}
+                    %input{:type => "input", :name => "subid", :value => "#{project.subid}"}
+                %td{:class => "maintable"}
+                    %input{:class => "maintable", :value => "Save", :type => "submit"}
+                    %input{:type => "hidden", :name => "id", :value => "#{project.id}"}
+
+    %tr
+        %form{:method => :post}
+            %td{:class => "maintable"}
+                %input{:type => "input", :name => "projectname"}
+            %td{:class => "maintable"}
+                %input{:type => "input", :name => "mainid"}
+            %td{:class => "maintable"}
+                %input{:type => "input", :name => "subid"}
+            %td{:class => "maintable"}
+                %input{:class => "maintable", :value => "Save", :type => "submit"}
+

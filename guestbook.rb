@@ -50,6 +50,16 @@ class SAPRecord
     end
 end
 
+class Project
+    include DataMapper::Resource
+
+    property :id, Serial
+    property :name, Text
+    property :mainid, Integer
+    property :subid, Integer
+end
+
+
 # Set Haml output format and enable escapes
 set :haml, {:format => :html5 , :escape_html => true }
 
@@ -102,41 +112,67 @@ get '/messages' do
     haml :list, :layout => false, :locals => {:items => messages}
 end
 
+get '/sapp' do
+    items = get_sap_records
+    haml :sap, :locals => {:items => items, :show_projectname => true, :link_to_alternate_view => "sap"}
+end
+
 get '/sap' do
     items = get_sap_records
-    haml :sap, :locals => {:items => items}
+    haml :sap, :locals => {:items => items, :show_projectname => false, :link_to_alternate_view => "sapp"}
+end
+
+get '/sapprojects' do
+    projects = Project.all
+    haml :sapprojects, :locals => {:projects => projects}
+end
+
+post '/sapprojects' do
+    if params[:id]
+        save_project(params)
+    else
+        create_project(params)
+    end
+
+    redirect '/sapprojects'
 end
 
 
 def get_sap_records
+    project_map = get_project_map
     result = {}
     items = get_items_for_current_week
     for item in items:
-        update_or_create_sap_record result, item
+        update_or_create_sap_record result, item, project_map
     end
-    # leave in the dummy record for now
-    test_item = SAPRecord.new
-    test_item.mainid = 4056672
-    test_item.subid = 600
-    test_item.Montag = 101
-    test_item.Dienstag = 102
-    test_item.Mittwoch = 103
-    test_item.Donnerstag = 104
-    test_item.Freitag = 105
-    test_item.Samstag = 106
-    test_item.Sonntag = 107
 
     p result
     return result.values
 end
 
-def update_or_create_sap_record(sap_records, tritem)
+def get_project_map
+    result = {}
+    projects = Project.all
+    projects.each do | project |
+       result[project.name] = project 
+    end
+    result
+end
+
+def update_or_create_sap_record(sap_records, tritem, project_map)
     sap_record = sap_records[tritem.project]
     if  sap_record == nil
+        if project_map[tritem.project]
+            mainid = project_map[tritem.project].mainid
+            subid = project_map[tritem.project].subid
+        else 
+            mainid = ""
+            subid = ""
+        end
         sap_record = SAPRecord.new
         sap_record.project = tritem.project
-        sap_record.mainid = 4040030
-        sap_record.subid = 600
+        sap_record.mainid = mainid
+        sap_record.subid = subid
         sap_records[tritem.project] = sap_record
     end
     weekday = get_weekday(tritem.date)
@@ -201,6 +237,35 @@ def find_items_by_id(id)
     result
 end
 
+def find_project_by_id(id)
+    result = nil
+    Project.all.each do | project |
+        if project.id == id
+            result = project
+        end
+    end
+    result
+end
+
+
+def save_project(params)
+    id = params[:id].to_i
+    project = find_project_by_id id
+    if project
+        project.name = params[:projectname]
+        project.mainid = params[:mainid]
+        project.subid = params[:subid]
+        project.save
+    end
+
+end
+
+def create_project(params)
+    Project.create(:name => params[:projectname],
+                   :mainid => params[:mainid],
+                   :subid => params[:subid])
+end
+
 def save_item(params)
     id = params[:id].to_i
     list = find_items_by_id id
@@ -215,11 +280,10 @@ def save_item(params)
 end
 
 def create_item(params)
-    # Create a new shout and redirect back to the list
     tritem = TRItem.create(:message => params[:message],
-                                              :date => params[:date],
-                                              :project => params[:project],
-                                              :duration => params[:duration])
+                           :date => params[:date],
+                           :project => params[:project],
+                           :duration => params[:duration])
 end
 
 
