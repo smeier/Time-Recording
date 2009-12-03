@@ -325,3 +325,8 @@ def format_hh_mm(minutes)
     end
 end
 
+def format_hh_min_as_decimal(minutes)
+    hours = (100 * minutes / 60.0)
+    hours.round() / 100.0
+end
+

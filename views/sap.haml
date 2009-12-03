@@ -23,4 +23,5 @@
             %td{:class => "maintable"}= item.subid
             %td{:class => "maintable"}
             - for weekday in $weekdays
-                %td{:class => "maintable"}= item.send(weekday)
+                - formatted_value = format_hh_min_as_decimal(item.send(weekday))
+                %td{:class => "maintable"}= formatted_value
