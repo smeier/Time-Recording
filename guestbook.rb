@@ -24,14 +24,10 @@ end
 
 class SAPRecord
     attr_accessor :project
-    @project = 0
     attr_accessor :mainid
-    @mainid = 0
     attr_accessor :subid
-    @subid = 0
     for day in $weekdays
         attr_accessor day
-        instance_variable_set("@#{day}", 0) 
     end
     def initialize
         @project = "undefined"
