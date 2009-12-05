@@ -5,6 +5,8 @@ require 'haml'
 require 'appengine-apis/datastore'
 require 'helpers'
 
+require 'model'
+
 # Configure DataMapper to use the App Engine datastore 
 DataMapper.setup(:default, "appengine://auto")
 
@@ -19,16 +21,6 @@ helpers do
 end
 
 # Create your model classes
-
-class TRItem
-    include DataMapper::Resource
-
-    property :id, Serial
-    property :date, Date
-    property :duration, Integer
-    property :project, Text
-    property :message, Text
-end
 
 class SAPRecord
     attr_accessor :project
