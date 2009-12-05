@@ -3,6 +3,7 @@ require 'sinatra'
 require 'dm-core'
 require 'haml'
 require 'appengine-apis/datastore'
+require 'helpers'
 
 # Configure DataMapper to use the App Engine datastore 
 DataMapper.setup(:default, "appengine://auto")
@@ -140,14 +141,8 @@ end
 
 def get_sap_records
     project_map = get_project_map
-    result = {}
     items = get_items_for_current_week
-    for item in items:
-        update_or_create_sap_record result, item, project_map
-    end
-
-    p result
-    return result.values
+    create_sap_records(items, project_map)
 end
 
 def get_project_map
@@ -314,19 +309,4 @@ def getSetOfFieldsFromList(items, fieldname)
     result
 end 
 
-def format_hh_mm(minutes)
-    # TODO: nach sprintf oder sowas in ruby suchen
-    hours = minutes / 60
-    rest_minutes = minutes % 60
-    if rest_minutes < 10
-        "#{hours}:0#{rest_minutes}"
-    else
-        "#{hours}:#{rest_minutes}"
-    end
-end
-
-def format_hh_min_as_decimal(minutes)
-    hours = (100 * minutes / 60.0)
-    hours.round() / 100.0
-end
 

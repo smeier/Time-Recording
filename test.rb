@@ -1,24 +1,49 @@
-require 'hello'
+require 'helpers'
 require 'test/unit'
-require 'rack/test'
-
-set :environment, :test
+# require 'rack/test'
+# set :environment, :test
 
 class GuestbookTest < Test::Unit::TestCase
-  include Rack::Test::Methods
+    # include Rack::Test::Methods
 
-  def app
-    Sinatra::Application
-  end
+    def app
+        Sinatra::Application
+    end
 
-  def test_it_says_hello_world
-    get '/'
-    assert last_response.ok?
-    assert_equal 'Hello World', last_response.body
-  end
+    def not_test_it_says_hello_world
+        get '/'
+        assert last_response.ok?
+        assert_equal 'Hello World', last_response.body
+    end
 
-  def test_it_says_hello_to_a_person
-    get '/', :name => 'Simon'
-    assert last_response.body.include?('Simon')
-  end
+    def test_that_will_succeed
+        assert_equal 'abc', 'abc'
+    end
+
+    def test_format_hh_mm
+        minutes = 0
+        assert_equal("0:00", format_hh_mm(minutes)) 
+        minutes = 60
+        assert_equal("1:00", format_hh_mm(minutes)) 
+        minutes = 55
+        assert_equal("0:55", format_hh_mm(minutes)) 
+        minutes = 122
+        assert_equal("2:02", format_hh_mm(minutes)) 
+        minutes = 322
+        assert_equal("5:22", format_hh_mm(minutes)) 
+    end
+
+    def test_format_hh_min_as_decimal
+        minutes = 18
+        assert_equal("0,3", format_hh_min_as_decimal(minutes)) 
+        minutes = 80
+        assert_equal("1,33", format_hh_min_as_decimal(minutes)) 
+        minutes = 301
+        assert_equal("5,02", format_hh_min_as_decimal(minutes)) 
+    end
+
+    def test_get_sap_records
+        
+    end
 end
+
