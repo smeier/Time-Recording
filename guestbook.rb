@@ -39,15 +39,6 @@ class SAPRecord
     end
 end
 
-class Project
-    include DataMapper::Resource
-
-    property :id, Serial
-    property :name, Text
-    property :mainid, Integer
-    property :subid, Integer
-end
-
 
 # Set Haml output format and enable escapes
 set :haml, {:format => :html5 , :escape_html => true }

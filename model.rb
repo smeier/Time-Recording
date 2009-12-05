@@ -8,3 +8,12 @@ class TRItem
     property :message, Text
 end
 
+class Project
+    include DataMapper::Resource
+
+    property :id, Serial
+    property :name, Text
+    property :mainid, Integer
+    property :subid, Integer
+end
+
