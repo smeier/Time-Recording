@@ -1,14 +1,10 @@
 require 'rubygems'
 require 'sinatra'
-require 'dm-core'
 require 'haml'
-require 'appengine-apis/datastore'
 require 'helpers'
 
 require 'model'
 
-# Configure DataMapper to use the App Engine datastore 
-DataMapper.setup(:default, "appengine://auto")
 
 $weekdays = [:Montag, :Dienstag, :Mittwoch, :Donnerstag, :Freitag, :Samstag, :Sonntag]
 

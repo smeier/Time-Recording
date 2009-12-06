@@ -1,3 +1,9 @@
+require 'appengine-apis/datastore'
+require 'dm-core'
+
+# Configure DataMapper to use the App Engine datastore 
+DataMapper.setup(:default, "appengine://auto")
+
 class TRItem
     include DataMapper::Resource
 
@@ -33,3 +39,4 @@ class SAPRecord
         end
     end
 end
+
