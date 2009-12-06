@@ -22,22 +22,6 @@ end
 
 # Create your model classes
 
-class SAPRecord
-    attr_accessor :project
-    attr_accessor :mainid
-    attr_accessor :subid
-    for day in $weekdays
-        attr_accessor day
-    end
-    def initialize
-        project = "undefined"
-        mainid = 0
-        subid = 0
-        for day in $weekdays
-            instance_variable_set("@#{day}", 0) 
-        end
-    end
-end
 
 
 # Set Haml output format and enable escapes
@@ -143,7 +127,7 @@ def update_or_create_sap_record(sap_records, tritem, project_map)
             mainid = ""
             subid = ""
         end
-        sap_record = SAPRecord.new
+        sap_record = SAPRecord.new($weekdays)
         sap_record.project = tritem.project
         sap_record.mainid = mainid
         sap_record.subid = subid

@@ -17,3 +17,19 @@ class Project
     property :subid, Integer
 end
 
+class SAPRecord
+    attr_accessor :project
+    attr_accessor :mainid
+    attr_accessor :subid
+    def initialize(weekdays)
+        for day in weekdays
+            attr_accessor day
+        end
+        project = "undefined"
+        mainid = 0
+        subid = 0
+        for day in weekdays
+            instance_variable_set("@#{day}", 0) 
+        end
+    end
+end
