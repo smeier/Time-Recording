@@ -30,9 +30,9 @@ class SAPRecord
         attr_accessor day
     end
     def initialize
-        @project = "undefined"
-        @mainid = 0
-        @subid = 0
+        project = "undefined"
+        mainid = 0
+        subid = 0
         for day in $weekdays
             instance_variable_set("@#{day}", 0) 
         end
