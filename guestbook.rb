@@ -46,11 +46,10 @@ end
 
 get '/list' do
     # @tritems = AppEngine::Datastore::Query.new('TRItem').filter('project',  AppEngine::Datastore::Query::EQUAL, '123').fetch
-    @tritems = AppEngine::Datastore::Query.new('TRItemXX')
+    entities = AppEngine::Datastore::Query.new('TRItems').fetch
+    @tritems = convert_entities_to_tritems(entities)
     puts @tritems
-    @tritems = AppEngine::Datastore::Query.new('TRItem').fetch
-    # @tritems = DataMapper::Query.new('TRItem')
-    puts @tritems
+    @sum_by_date = get_sum_by_date
     @projects = getProjectsFrom(@tritems)
     @messages = getMessagesFrom(@tritems)
     

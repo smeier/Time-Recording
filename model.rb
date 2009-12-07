@@ -12,6 +12,22 @@ class TRItem
     property :duration, Integer
     property :project, Text
     property :message, Text
+
+    def self.create_from_map(props)
+        tritem = TRItem.new
+        tritem.initialize_from_map(props)
+        tritem
+    end
+        
+    def initialize_from_map(props)
+        for prop in [:id, :date, :duration, :project, :message]
+            self.send "#{prop}=", props[prop]
+        end
+    end
+
+    def to_s
+        return "ID: #{id}, #{message}, #{project}, #{date}, #{duration}"
+    end
 end
 
 class Project
@@ -38,5 +54,13 @@ class SAPRecord
             instance_variable_set("@#{day}", 0) 
         end
     end
+end
+
+def convert_entities_to_tritems(entities)
+    result = []
+    for entity in entities
+        result << TRItem.create_from_map(entity)
+    end
+    return result
 end
 
