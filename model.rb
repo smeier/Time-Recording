@@ -27,10 +27,10 @@ class SAPRecord
     attr_accessor :project
     attr_accessor :mainid
     attr_accessor :subid
+    for day in $weekdays
+        attr_accessor day
+    end
     def initialize(weekdays)
-        for day in weekdays
-            attr_accessor day
-        end
         project = "undefined"
         mainid = 0
         subid = 0

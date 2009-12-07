@@ -1,12 +1,12 @@
 require 'rubygems'
 require 'sinatra'
 require 'haml'
-require 'helpers'
-
-require 'model'
-
 
 $weekdays = [:Montag, :Dienstag, :Mittwoch, :Donnerstag, :Freitag, :Samstag, :Sonntag]
+
+require 'helpers'
+require 'model'
+
 
 # Helper
 helpers do
