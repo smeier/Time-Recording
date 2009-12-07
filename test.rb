@@ -42,6 +42,16 @@ class GuestbookTest < Test::Unit::TestCase
         assert_equal("5,02", format_hh_min_as_decimal(minutes)) 
     end
 
+    def dont_test_filter_items_get_those_after
+        items = TRItem.new
+    end
+
+    def test_get_first_day_of_week
+        date = Date.new(2009, 12, 9)
+        monday = get_first_day_of_week(date)
+        assert_equal(Date.new(2009, 12, 7), monday)
+    end
+
     def test_get_sap_records
         
     end

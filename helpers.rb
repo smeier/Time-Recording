@@ -26,3 +26,20 @@ def format_hh_min_as_decimal(minutes)
     value.sub(/[.]/, ",")
 end
 
+def get_first_day_of_week(date)
+    result = Date.new(2009, 12, 07)
+    return result
+end
+
+def filter_items_get_those_after(items, date)
+    result = []
+    items.each do | tritem |
+        if tritem.date >= date
+            p "#{tritem.date} >= #{date} so add it to the result"
+            result << tritem
+        end
+    end
+    result
+end
+
+

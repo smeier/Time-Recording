@@ -23,11 +23,30 @@ end
 # Set Haml output format and enable escapes
 set :haml, {:format => :html5 , :escape_html => true }
 
+get '/week' do
+    @tritems = get_items_for_current_week
+    @sum_by_date = get_sum_by_date @tritems
+    @projects = getProjectsFrom(@tritems)
+    @messages = getMessagesFrom(@tritems)
+    
+    haml :index
+end
+
+post '/week' do
+    if params[:id]
+        save_item(params)
+    else
+        create_item(params)
+    end
+
+    redirect '/week'
+end
+
 # time record board
 get '/' do
     # Just list all the time record items
     @tritems = get_all_items
-    @sum_by_date = get_sum_by_date
+    @sum_by_date = get_sum_by_date @tritems
     @projects = getProjectsFrom(@tritems)
     @messages = getMessagesFrom(@tritems)
     
@@ -46,10 +65,9 @@ end
 
 get '/list' do
     # @tritems = AppEngine::Datastore::Query.new('TRItem').filter('project',  AppEngine::Datastore::Query::EQUAL, '123').fetch
-    entities = AppEngine::Datastore::Query.new('TRItems').fetch
+    entities = AppEngine::Datastore::Query.new('TRItems').filter('message', AppEngine::Datastore::Query::LESS_THAN_OR_EQUAL, 'ZZZ')
     @tritems = convert_entities_to_tritems(entities)
-    puts @tritems
-    @sum_by_date = get_sum_by_date
+    @sum_by_date = get_sum_by_date @tritems
     @projects = getProjectsFrom(@tritems)
     @messages = getMessagesFrom(@tritems)
     
@@ -145,19 +163,14 @@ def get_items_for_current_week
     find_items_after monday
 end
 
-def get_first_day_of_week(date)
-    result = Date.new(2009, 11, 30)
-    return result
-end
-
 def get_all_items
     TRItem.all(:order => [:date])
     # TRItem.all(:limit => 2, :iorder => :date)
 end
 
-def get_sum_by_date
+def get_sum_by_date(items)
     result = {}
-    TRItem.all.each do | tritem |
+    items.each do | tritem |
         value = result[tritem.date]
         if ! value
              value = 0
@@ -169,14 +182,10 @@ end
 
 
 def find_items_after(date)
-    result = []
-    TRItem.all.each do | tritem |
-        if tritem.date >= date
-            result << tritem
-        end
-    end
-    result
+    items = TRItem.all
+    filter_items_get_those_after(items, date)
 end
+
 
 def find_items_by_id(id)
     result = []
