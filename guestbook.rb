@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'sinatra'
 require 'haml'
+require 'date'
 
 $weekdays = [:Montag, :Dienstag, :Mittwoch, :Donnerstag, :Freitag, :Samstag, :Sonntag]
 
@@ -16,19 +17,13 @@ helpers do
     end
 end
 
-# Create your model classes
-
-
 
 # Set Haml output format and enable escapes
 set :haml, {:format => :html5 , :escape_html => true }
 
 get '/week' do
     @tritems = get_items_for_current_week
-    @sum_by_date = get_sum_by_date @tritems
-    @projects = getProjectsFrom(@tritems)
-    @messages = getMessagesFrom(@tritems)
-    
+    fill_up_fields 
     haml :index
 end
 
@@ -46,10 +41,7 @@ end
 get '/' do
     # Just list all the time record items
     @tritems = get_all_items
-    @sum_by_date = get_sum_by_date @tritems
-    @projects = getProjectsFrom(@tritems)
-    @messages = getMessagesFrom(@tritems)
-    
+    fill_up_fields 
     haml :index
 end
 
@@ -67,11 +59,14 @@ get '/list' do
     # @tritems = AppEngine::Datastore::Query.new('TRItem').filter('project',  AppEngine::Datastore::Query::EQUAL, '123').fetch
     entities = AppEngine::Datastore::Query.new('TRItems').filter('message', AppEngine::Datastore::Query::LESS_THAN_OR_EQUAL, 'ZZZ')
     @tritems = convert_entities_to_tritems(entities)
+    fill_up_fields
+    haml :index
+end
+
+def fill_up_fields
     @sum_by_date = get_sum_by_date @tritems
     @projects = getProjectsFrom(@tritems)
     @messages = getMessagesFrom(@tritems)
-    
-    haml :index
 end
 
 get '/projects' do
@@ -159,12 +154,13 @@ def get_weekday(date)
 end
 
 def get_items_for_current_week
-    monday = get_first_day_of_week(Time.now) 
+    monday = get_first_day_of_week(Date.today) 
     find_items_after monday
 end
 
 def get_all_items
-    TRItem.all(:order => [:date])
+    TRItem.all(:order => [:date, :id])
+    # TRItem.all(:order => [:date, :project, :message])
     # TRItem.all(:limit => 2, :iorder => :date)
 end
 
@@ -182,7 +178,7 @@ end
 
 
 def find_items_after(date)
-    items = TRItem.all
+    items = TRItem.all(:order => [:date, :id])
     filter_items_get_those_after(items, date)
 end
 

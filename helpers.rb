@@ -27,7 +27,9 @@ def format_hh_min_as_decimal(minutes)
 end
 
 def get_first_day_of_week(date)
-    result = Date.new(2009, 12, 07)
+    weekday = date.wday
+    offset = (weekday - 1) % 7
+    result = date - offset
     return result
 end
 

@@ -1,5 +1,6 @@
 require 'helpers'
 require 'test/unit'
+require 'date'
 # require 'rack/test'
 # set :environment, :test
 
@@ -47,7 +48,27 @@ class GuestbookTest < Test::Unit::TestCase
     end
 
     def test_get_first_day_of_week
-        date = Date.new(2009, 12, 9)
+        date = Date.civil(2009, 12, 9)
+        monday = get_first_day_of_week(date)
+        assert_equal(Date.new(2009, 12, 7), monday)
+
+        date = Date.civil(2009, 12, 13)
+        monday = get_first_day_of_week(date)
+        assert_equal(Date.new(2009, 12, 7), monday)
+
+        date = Date.civil(2009, 12, 7)
+        monday = get_first_day_of_week(date)
+        assert_equal(Date.new(2009, 12, 7), monday)
+
+        date = Date.civil(2009, 12, 6)
+        monday = get_first_day_of_week(date)
+        assert_equal(Date.new(2009, 11, 30), monday)
+
+        date = Date.civil(2009, 12, 4)
+        monday = get_first_day_of_week(date)
+        assert_equal(Date.new(2009, 11, 30), monday)
+
+        date = Date.today
         monday = get_first_day_of_week(date)
         assert_equal(Date.new(2009, 12, 7), monday)
     end
